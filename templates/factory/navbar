@@ -1,0 +1,16 @@
+<div id="navcontainer">
+<ul id="navlist">
+[%
+    FOR table = config.display_tables;
+        '<LI '; 'id="active"' IF table == classmetadata.moniker;
+        '>';
+        '<A HREF="';
+        base; table; "/list/";
+        '"';
+        ' id="current"' IF table == classmetadata.moniker;
+        '> '; table; "</A>";
+    END;
+%]
+</ul>
+</div> 
+

@@ -1,0 +1,23 @@
+
+<h3>Search</h3>
+<FORM METHOD="post" ACTION="[%base%]/[%classmetadata.moniker%]/search/">
+    <INPUT TYPE="hidden" NAME="action" VALUE="create">
+    <INPUT TYPE="hidden" NAME="class" VALUE="[%classmetadata.name%]">
+    <TABLE class="view">
+     [% FOR col = classmetadata.columns;
+        NEXT IF col == "id";
+     %]
+     <TR> <TD class="field"> [% classmetadata.colnames.$col; %] </TD>
+     <TD> [% 
+        SET element = classmetadata.cgi.$col;
+        IF element.tag == "select";
+            USE element_maker = Class("HTML::Element");
+            SET element = element.unshift_content(
+                            element_maker.new("option", value," "));
+        END;
+        element.as_HTML; 
+        %] </TD> </TR>
+    [% END; %]
+    </TABLE>
+    <INPUT TYPE="submit" NAME="search" VALUE="search">
+</FORM>

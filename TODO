@@ -1,0 +1,9 @@
+Advanced searching
+Ordering of results
+Ordering of columns
+Pages with several ?(different kinds) of objects?
+ACLs? Users? Last-updated?
+    (Probably not. These are handled in subclasses)
+Paging
+Documentation, documentation, documentation
+Error handling

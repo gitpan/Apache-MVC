@@ -1,0 +1,34 @@
+[% PROCESS macros %]
+
+[% INCLUDE header %]
+
+[% IF search %]
+<h2> Search results </h2>
+[% ELSE %]
+<h2> Listing of all [% classmetadata.plural %]</h2>
+[% END %]
+
+[% INCLUDE navbar %]
+<DIV class="search"> [% INCLUDE search_form %] </DIV>
+
+<DIV class="list">
+<TABLE id="matrix" WIDTH="100%">
+<TR>
+[% FOR col = classmetadata.columns.list;
+    NEXT IF col == "id";
+    "<TH>"; classmetadata.colnames.$col; "</TH>";
+END %]
+</TR>
+
+[%  SET count = 0;
+FOR item = objects;
+    SET count = count + 1;
+    "<tr";
+    ' class="alternate"' IF count % 2;
+    ">";
+    display_line(item);
+    "</tr>";
+END %]
+</TABLE>
+[% INCLUDE addnew; %]
+</DIV>

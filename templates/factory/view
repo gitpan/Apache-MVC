@@ -1,0 +1,35 @@
+[% PROCESS macros %]
+[% INCLUDE header %]
+
+[% FOR item = objects %]
+<h2> [% item.name %]</h2>
+
+[% INCLUDE navbar %]
+
+<TABLE class="view">
+    <TR><TD class="field">Name</TD><TD> [% item.name %] </TD></TR>
+[% 
+    FOR col = classmetadata.columns.list;
+    NEXT IF col == "id" OR col == "name";
+    NEXT UNLESS item.$col;
+%]
+
+<TR>
+    <TD class="field"> [% classmetadata.colnames.$col; %] </TD>
+    <TD> [%
+
+    IF col == "url";  # Possibly too much magic.
+                "<A HREF="; item.url; "> "; item.url; "</A>";
+    ELSE;
+    maybe_link_view(item.$col); END;
+    %] </TD>
+</TR>
+[% END; %]
+</TABLE>
+[%
+    view_related(item);
+    button(item, "edit");
+    button(item, "delete");
+%]
+[% END; %]
+

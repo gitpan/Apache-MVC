@@ -1,0 +1,6 @@
+Revision history for Perl extension Apache::MVC.
+
+0.01  Thu Jan  8 15:50:17 2004
+	- original version; created by h2xs 1.22 with options
+		-AX -b 5.6.0 -n Apache::MVC
+

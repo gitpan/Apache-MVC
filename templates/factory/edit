@@ -1,0 +1,21 @@
+[% PROCESS macros %]
+[% INCLUDE header %]
+
+[% FOR item = objects; %]
+<h2> Edit [% item.name %]</h2>
+
+<FORM ACTION="[% base %]/[% classmetadata.moniker %]/do_edit/[% item.id %]" METHOD="post">
+[%
+     FOR col = classmetadata.columns;
+        NEXT IF col == "id";
+        "<P>";
+        "<B>"; classmetadata.colnames.$col; "</B>";
+        ": ";
+            item.to_field(col).as_HTML;
+        "</P>";
+        IF errors.$col; 
+            "<FONT COLOR=\"#ff0000\">"; errors.$col; "</FONT>";
+        END;
+    END;
+     '<INPUT TYPE="submit" NAME="edit" VALUE="edit">';
+END %]

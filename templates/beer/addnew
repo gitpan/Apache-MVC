@@ -1,0 +1,31 @@
+<h3>Add a new [%classmetadata.moniker%]</h3>
+[% USE element_maker = Class("HTML::Element") %]
+<P>
+<FORM METHOD="post" ACTION="[%base%]/[%classmetadata.moniker%]/do_edit/">
+    <INPUT TYPE="hidden" NAME="action" VALUE="create">
+    <INPUT TYPE="hidden" NAME="class" VALUE="[%classmetadata.name%]">
+    <TABLE class="view">
+     [% FOR col = classmetadata.columns;
+        NEXT IF col == "id";
+        SET element = classmetadata.cgi.$col;
+        IF col == "brewery";
+            SET create_url = base _ "/brewery/edit";
+            SET new_element = element_maker.new("option", 
+                "class", "redirect",
+                "value", create_url).push_content("Create new brewery");
+            SET child = element.content_list.first;
+            SET foo = element.attr("name", "navi");
+            SET child = child.attr("selected", "selected");
+            SET element =
+            element.unshift_content(element_maker.new("option", value," "));
+            element.attr("onChange", "go()");
+            SET element = element.unshift_content(new_element);
+        END;
+        %]
+     <TR> <TD class="field"> [% classmetadata.colnames.$col; %]
+     </TD>
+          <TD> [% element.as_HTML; %] </TD> </TR>
+    [% END; %]
+    </TABLE>
+    <INPUT TYPE="submit" NAME="create" VALUE="create">
+</FORM>

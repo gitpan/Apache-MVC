@@ -1,0 +1,47 @@
+[% MACRO maybe_link_view(object) BLOCK;
+    IF object.moniker; # It's an object, i.e. a has-a
+        "<A HREF='" _ base _ object.moniker _ "/view/" _ object.id _"'>";
+        object;
+        "</A>";
+    ELSE;
+        object;
+    END;
+END;
+%]
+
+[% MACRO display_line(item) BLOCK;
+     FOR col = classmetadata.columns;
+        NEXT IF col == "id";
+        "<td>";
+        IF col == "url";  # Possibly too much magic.
+            "<A HREF="; item.url; "> "; item.url; "</A>";
+        ELSIF col == "name";
+            maybe_link_view(item);
+        ELSE;
+            maybe_link_view(item.$col);
+        END;
+        "</td>";
+     END;
+    button(item, "edit");
+    button(item, "delete");
+END %]
+
+[% MACRO button(obj, action) BLOCK; %]
+<TD>
+<FORM METHOD="post" ACTION="[%base%]/[%obj.moniker%]/[%action%]/[%obj.id%]">
+    <INPUT TYPE="submit" NAME="[%action%]" VALUE="[%action%]">
+</FORM>
+</TD>
+[% END %]
+
+[% MACRO view_related(object) BLOCK;
+    FOR accessor = classmetadata.related_accessors.list;
+        "<H3>"; accessor | ucfirst; "</H3>\n";
+        "<UL id=\"vlist\">";
+        FOR thing = object.$accessor;
+            "<LI>"; maybe_link_view(thing); "</LI>\n";
+        END;
+        "</UL>";
+    END; 
+END;
+%]
