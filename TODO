@@ -1,9 +1,50 @@
-Advanced searching
-Ordering of results
-Ordering of columns
-Pages with several ?(different kinds) of objects?
-ACLs? Users? Last-updated?
-    (Probably not. These are handled in subclasses)
-Paging
-Documentation, documentation, documentation
-Error handling
+=head1 TODO List
+
+=head2 Advanced searching
+
+I'm already using AbstractSearch, so I need to put the operators as form
+fields in the templates, then extract them again in the search method.
+The code is almost there.
+
+=head2 Ordering of results
+
+Should be able to sort up and down by column name.
+
+=head2 Ordering of columns
+
+What order do the columns appear in the lists and edit boxes? It B<is>
+already possible to customize this by overriding C<columns> in an
+individual model class, but it might be better to do that in the config.
+
+Excluding some columns from list display might be worth doing. Again, it
+can be done in the templates, but might be better in config.
+
+=head2 Pages with several ?(different kinds) of objects?
+
+I don't know if this is actually a useful concept. Maybe someone will
+find a case for it.
+
+=head2 ACLs? Users? Last-updated?
+
+Probably not. These are handled in subclasses
+
+=head2 Paging results
+
+Class::DBI::Page is a very handy thing; got to work it in somehow.
+
+=head2 Documentation, documentation, documentation
+
+As ever. Maybe I can write a few articles about it too.
+
+=head2 Error handling
+
+When happens if authentication is denied, for instance? Currently we
+just get an Apache 403.
+
+=head2 Many-to-many relationships
+
+Beers are on pumps in pubs. How do I say which pubs have what beers on
+and vice versa? A multiple select seems the right way to do it from the
+CGI point of view, so we need to do something with edit, create, search
+and view pages to enable this. Maybe another C<related>-style hack
+required.

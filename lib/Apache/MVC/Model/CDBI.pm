@@ -4,8 +4,23 @@ use Lingua::EN::Inflect::Number qw(to_PL);
 use Class::DBI::AsForm;
 use Class::DBI::FromCGI;
 use Class::DBI::AbstractSearch;
+use Class::DBI::Plugin::RetrieveAll;
+use Class::DBI::Pager;
 use CGI::Untaint;
 use strict;
+
+=head1 NAME
+
+Apache::MVC::Model::CDBI - Model class based on Class::DBI
+
+=head1 DESCRIPTION
+
+This is a master model class which uses C<Class::DBI> to do all the hard
+work of fetching rows and representing them as objects. It is a good
+model to copy if you're replacing it with other database abstraction
+modules.
+
+=cut
 
 sub related {
     my ($self, $r) = @_;
@@ -67,15 +82,21 @@ sub search :Exported {
     $r->{template_args}{search} = 1;
 }
 
+sub list :Exported {
+    my ($self, $r) = @_;
+    my %ok_columns = map {$_ => 1} $self->columns;
+    if ( my $rows = $r->config->{rows_per_page}) {
+        $self = $self->pager($rows, $r->query->{page});
+        $r->{template_args}{pager} = $self;
+    } 
+    my $order;
+    if ($order = $r->query->{order} and $ok_columns{$order}) {
+        $r->objects([ $self->retrieve_all_sorted_by( $order.
+            ($r->query->{o2} eq "desc" && " DESC")
+        )]);
+    } else {
+        $r->objects([ $self->retrieve_all ]);
+    }
+}
 1;
 
-=head1 NAME
-
-Apache::MVC::Model::CDBI - Model class based on Class::DBI
-
-=head1 DESCRIPTION
-
-This is a master model class which uses C<Class::DBI> to do all the hard
-work of fetching rows and representing them as objects; instead, it
-concentrates on the actions that can be performed in the URL:
-C<do_edit>, C<delete> and C<search>.

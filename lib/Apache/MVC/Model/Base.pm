@@ -6,11 +6,6 @@ sub FETCH_CODE_ATTRIBUTES { $remember{$_[1]} }
 sub view :Exported { }
 sub edit :Exported { }
 
-sub list :Exported {
-    my ($self, $r) = @_;
-    $r->objects([ $self->retrieve_all ]);
-}
-
 sub process {
     my ($class, $r) = @_;
     $r->template( my $method = $r->action );
@@ -64,7 +59,23 @@ This is the name of the table.
 
 =head2 Commands
 
-See the exported commands in C<Apache::MVC::Model::CDBI>.
+=over
+
+=item list
+
+The C<list> method should fill C<< $r-> objects >> with all of the
+objects in the class. You may want to page this using C<Data::Page> or
+similar.
+
+=back
+
+=cut
+
+sub list :Exported { die "This is an abstract method" };
+
+=pod
+
+Also, see the exported commands in C<Apache::MVC::Model::CDBI>.
 
 =head1 Other overrides
 

@@ -21,3 +21,4 @@ templates/factory/navbar
 templates/factory/edit
 templates/factory/view
 TODO
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -6,9 +6,9 @@ use UNIVERSAL::require;
 use Apache::Constants ":common";
 use strict;
 use warnings;
-our $VERSION = "0.1";
+our $VERSION = "0.2";
 __PACKAGE__->mk_classdata($_) for qw( _config init_done view_object );
-__PACKAGE__->mk_accessors ( qw( config ar params objects model_class
+__PACKAGE__->mk_accessors ( qw( config ar params query objects model_class
 args action template ));
 __PACKAGE__->config({});
 __PACKAGE__->init_done(0);
@@ -101,6 +101,7 @@ sub parse_location {
     $self->{path} = $self->{ar}->uri;
     my $loc = $self->{ar}->location;
     $self->{path} =~ s/^$loc//; # I shouldn't need to do this?
+    $self->{path} ||= "frontpage";
     my @pi = split /\//, $self->{path};
     shift @pi while @pi and !$pi[0];
     $self->{table} = shift @pi;
@@ -108,6 +109,7 @@ sub parse_location {
     $self->{args} = \@pi;
 
     $self->{params} = { $self->{ar}->content };
+    $self->{query}  = { $self->{ar}->args };
 }
 
 sub is_applicable {

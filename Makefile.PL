@@ -9,6 +9,7 @@ WriteMakefile(
         Class::DBI::Loader => 0,
         Class::DBI::AbstractSearch => 0,
         Class::DBI::Pager => 0,
+        Class::DBI::Plugin::RetrieveAll => 0,
         Class::DBI::AsForm => 0,
         Class::DBI::FromCGI => 0,
         Class::DBI::Loader::Relationship => 0,

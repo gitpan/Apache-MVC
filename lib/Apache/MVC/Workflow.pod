@@ -64,7 +64,7 @@ several slots of the request object. First, C<table> and C<action>
 should be populated with the name of the table and the action parts of
 the URL. Any other arguments should be placed in a listref in the
 C<args> slot, and GET and POST parameters should be arranged into a hash
-and placed in the C<params> slot.
+and placed in the C<query> and C<params> slots, respectively.
 
 Some people may not like the idea of passing everything around in the
 URL; this is the method to override for you. Of course, you'll also need

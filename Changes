@@ -1,5 +1,9 @@
 Revision history for Perl extension Apache::MVC.
 
+0.2   Thu Feb  5 18:03:33 GMT 2004
+    - This release adds paging of list results and ordering by column
+      (ascending and descending)
+
 0.01  Thu Jan  8 15:50:17 2004
 	- original version; created by h2xs 1.22 with options
 		-AX -b 5.6.0 -n Apache::MVC

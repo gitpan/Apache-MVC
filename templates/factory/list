@@ -16,7 +16,15 @@
 <TR>
 [% FOR col = classmetadata.columns.list;
     NEXT IF col == "id";
-    "<TH>"; classmetadata.colnames.$col; "</TH>";
+    "<TH>"; 
+        '<A HREF="'; base; classmetadata.moniker; "/list/?";
+        "page=" _ pager.current_page _ "&" IF pager;
+        "order="; col; 
+        "&o2=desc" IF col == request.query.order and request.query.o2 != "desc";
+        '">';
+        classmetadata.colnames.$col; 
+        '</A>';
+    "</TH>";
 END %]
 </TR>
 
@@ -30,5 +38,7 @@ FOR item = objects;
     "</tr>";
 END %]
 </TABLE>
+
+[% INCLUDE pager; %]
 [% INCLUDE addnew; %]
 </DIV>
